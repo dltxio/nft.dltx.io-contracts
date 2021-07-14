@@ -11,6 +11,7 @@ task("accounts", "Prints the list of accounts", async (_agrs, hre) => {
     console.log(account.address + ": " + balance + " ETH");
   }
 });
+
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
@@ -27,10 +28,18 @@ export default {
     hardhat: {
       chainId: 1337,
       accounts: {
-        mnemonic:
-          "hour unusual banana climb interest combine obey cloud object cram jealous upgrade",
+        mnemonic: process.env.MNEMONIC,
       },
-      allowUnlimitedContractSize: true,
+    },
+    kovan: {
+      chainId: 42,
+      url: process.env.NODE,
+      accounts: {
+        mnemonic: process.env.MNEMONIC,
+      },
+    },
+    localhost: {
+      url: "http://127.0.0.1:8545/",
     },
   },
   solidity: "0.8.6",
