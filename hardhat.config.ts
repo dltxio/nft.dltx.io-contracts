@@ -1,16 +1,18 @@
-import { task } from "hardhat/config";
+require("dotenv").config();
+
+// import { task } from "hardhat/config";
 import "@nomiclabs/hardhat-waffle";
-import { config as dotenvConfig } from "dotenv";
-dotenvConfig();
+// import { config as dotenvConfig } from "dotenv";
+// dotenvConfig();
 
-task("accounts", "Prints the list of accounts", async (_agrs, hre) => {
-  const accounts = await hre.ethers.getSigners();
+// task("accounts", "Prints the list of accounts", async (_agrs, hre) => {
+//   const accounts = await hre.ethers.getSigners();
 
-  for (const account of accounts) {
-    const balance = hre.ethers.utils.formatEther(await account.getBalance());
-    console.log(account.address + ": " + balance + " ETH");
-  }
-});
+//   for (const account of accounts) {
+//     const balance = hre.ethers.utils.formatEther(await account.getBalance());
+//     console.log(account.address + ": " + balance + " ETH");
+//   }
+// });
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
