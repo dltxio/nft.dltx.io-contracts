@@ -35,4 +35,8 @@ contract DLTx is ERC721, Ownable {
     require(mesh[index].enddate != 0, "Already terminated");
     mesh[index].enddate = enddate;
   }
+
+  function employed(uint256 index) public view returns (bool) {
+    return mesh[index].enddate == 0;
+  }
 }
