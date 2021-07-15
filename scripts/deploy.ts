@@ -1,10 +1,7 @@
-import * as hre from "hardhat";
 import "@nomiclabs/hardhat-ethers";
+import { run, ethers } from "hardhat";
 
 async function main() {
-  const run = hre.run;
-  const ethers = hre.ethers;
-
   await run("compile");
 
   const DLTx = await ethers.getContractFactory("DLTx");
