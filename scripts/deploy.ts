@@ -1,13 +1,8 @@
+import "@nomiclabs/hardhat-ethers";
 import { run, ethers } from "hardhat";
 
 async function main() {
-  // await run("compile");
-
-  // const accounts = await ethers.getSigners();
-  // console.log(
-  //   "Accounts:",
-  //   accounts.map((a) => a.address)
-  // );
+  await run("compile");
 
   const DLTx = await ethers.getContractFactory("DLTx");
   const greeter = await DLTx.deploy();
