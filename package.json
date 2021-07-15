@@ -2,7 +2,6 @@
   "name": "dltx.nft",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -46,7 +45,8 @@
     "eject": "react-scripts eject",
     "compile": "npx hardhat compile",
     "dev:node": "npx hardhat node --hostname localhost",
-    "deploy:local": "npx hardhat run --network localhost scripts/deploy.js"
+    "deploy:local": "npx hardhat run --network localhost scripts/deploy.ts",
+    "deploy:kovan": "npx hardhat run --network kovan scripts/deploy.ts"
   },
   "eslintConfig": {
     "extends": [

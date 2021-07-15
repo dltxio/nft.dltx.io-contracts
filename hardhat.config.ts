@@ -1,18 +1,6 @@
-require("dotenv").config();
-
-// import { task } from "hardhat/config";
 import "@nomiclabs/hardhat-waffle";
-// import { config as dotenvConfig } from "dotenv";
-// dotenvConfig();
-
-// task("accounts", "Prints the list of accounts", async (_agrs, hre) => {
-//   const accounts = await hre.ethers.getSigners();
-
-//   for (const account of accounts) {
-//     const balance = hre.ethers.utils.formatEther(await account.getBalance());
-//     console.log(account.address + ": " + balance + " ETH");
-//   }
-// });
+import { config as dotenvConfig } from "dotenv";
+dotenvConfig();
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -34,11 +22,8 @@ export default {
       },
     },
     kovan: {
-      chainId: 42,
-      url: process.env.NODE,
-      accounts: {
-        mnemonic: process.env.MNEMONIC,
-      },
+      url: process.env.KOVAN_INFURA_URL,
+      accounts: [process.env.KOVAN_ACCOUNT],
     },
     localhost: {
       url: "http://127.0.0.1:8545/",
