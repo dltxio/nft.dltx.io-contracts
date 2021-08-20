@@ -23,7 +23,7 @@ contract DLTx is ERC721, Ownable {
 
     mesh[totalSupply] = MetaData(startDate, 0);
     _safeMint(to, totalSupply);
-    totalSupply += 1;
+    totalSupply++;
   }
 
   function terminate(uint256 index) public onlyOwner() {

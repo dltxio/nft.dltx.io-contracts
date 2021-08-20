@@ -1,0 +1,11 @@
+{
+    "description": "Circle Lead",
+    "image": "https://dltx.io/images/lucas-cullen-square.jpg",
+    "name": "Lucas",
+    "attributes": [
+        {
+            "twitter": "bitcoinbrisbane",
+            "pgp": "https://dltx.io/pgp/lucas@dltx.io.asc"
+        }
+    ]
+}
