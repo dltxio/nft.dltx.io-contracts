@@ -36,7 +36,7 @@ describe("NFT", () => {
   });
   it("Should end the probation after 60 seconds passed", async () => {
     // @ts-ignore
-    await deployer.provider.send("evm_increaseTime", [60]);
+    await deployer.provider.send("evm_increaseTime", [61]);
     // @ts-ignore
     await deployer.provider.send("evm_mine", []);
     expect(await nft.onProbation(0)).to.equal(false);
@@ -65,5 +65,12 @@ describe("NFT", () => {
       return;
     }
     throw new Error("Allowed terminating twice");
+  });
+  it("Should return the correct tokenURI", async () => {
+    expect(await nft.tokenURI(0)).to.equal("https://dltx.io/nfts/0.json");
+  });
+  it("Should allow changing the base URI", async () => {
+    await nft.setBaseURI("baseuri/");
+    expect(await nft.tokenURI(0)).to.equal("baseuri/0.json");
   });
 });
