@@ -1,6 +1,6 @@
 import { ethers, upgrades } from "hardhat";
 import { ethers as tsEthers } from "ethers";
-import { getLedgerSigner } from "../utils";
+import {getGasPriceFromEnv, getLedgerSigner} from "../utils";
 
 export const deployContract = async (
   contractName: string,
@@ -12,7 +12,9 @@ export const deployContract = async (
   const Contract = (await ethers.getContractFactory(contractName)).connect(
     signer
   );
-  const contract = await Contract.deploy(...constructorArguments);
+  const contract = await Contract.deploy(...constructorArguments, {
+    gasPrice: getGasPriceFromEnv()
+  });
   await contract.deployTransaction.wait(waitCount);
   return contract;
 };
@@ -55,7 +57,7 @@ export const deployProxy = async (
     signer
   );
   const contract = await upgrades.deployProxy(Contract, constructorArguments, {
-    kind: "uups"
+    kind: "uups",
   });
   await contract.deployTransaction.wait(waitCount);
   return contract;
