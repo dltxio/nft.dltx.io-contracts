@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 struct MetaData {
   uint256 startdate;
   uint256 enddate;
-  bool probation;
+  uint256 probation;
 }
 
 contract DLTx is ERC721, Ownable {
@@ -17,7 +17,7 @@ contract DLTx is ERC721, Ownable {
   function mint(
       address to,
       uint256 startDate,
-      bool probation
+      uint256 probation
   ) public onlyOwner() {
     require(to != address(0), "Invalid address");
     if (startDate == 0) startDate = block.timestamp;
@@ -36,7 +36,7 @@ contract DLTx is ERC721, Ownable {
     mesh[index].enddate = enddate;
   }
 
-  function setProbation(uint256 index, bool value) external onlyOwner() {
+  function setProbation(uint256 index, uint256 value) external onlyOwner() {
     mesh[index].probation = value;
   }
 
@@ -51,5 +51,9 @@ contract DLTx is ERC721, Ownable {
 
   function employed(uint256 index) external view returns (bool) {
     return mesh[index].enddate == 0;
+  }
+
+  function onProbation(uint256 index) external view returns (bool) {
+    return block.timestamp <= mesh[index].startdate + mesh[index].probation;
   }
 }
