@@ -21,7 +21,7 @@ contract DLTx is ERC721, Ownable {
   ) public onlyOwner() {
     require(to != address(0), "Invalid address");
     if (startDate == 0) startDate = block.timestamp;
-    mesh[totalSupply] = MetaData(startDate, 0, true);
+    mesh[totalSupply] = MetaData(startDate, 0, probation);
     _safeMint(to, totalSupply);
     totalSupply++;
   }
