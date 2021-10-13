@@ -1,4 +1,7 @@
 {
-  "kovan": { },
-  "localhost": { } 
+  "kovan": {},
+  "localhost": {},
+  "rinkeby": {
+    "nft": "0xE9c457EE454215f1C0d811f07E81D89421DA078b"
+  }
 }
