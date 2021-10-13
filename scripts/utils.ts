@@ -77,7 +77,8 @@ export async function ledgerSignTransaction(
 
 export const getGasPriceFromEnv = () => {
   const gasPrice = ethers.BigNumber.from(
-    process.env.DEPLOY_GAS_PRICE_WEI.toString()
+    process.env.DEPLOY_GAS_PRICE_WEI?.toString()
+      || "8000000000"
   );
   if (!ethers.BigNumber.isBigNumber(gasPrice))
     throw new Error("Could not fetch gas price from DEPLOY_GAS_PRICE_WEI env");
