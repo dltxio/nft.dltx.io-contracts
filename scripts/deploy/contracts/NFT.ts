@@ -18,12 +18,3 @@ export const deploy = async (deployer, setAddresses) => {
   setAddresses({ nft: nft.address });
   return nft;
 };
-
-export const upgrade = async (deployer, addresses) => {
-  return await upgradeProxy(
-    "DLTx",
-    addresses.nft,
-    deployer,
-    1
-  );
-};
