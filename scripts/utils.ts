@@ -6,7 +6,10 @@ const configPath = path.resolve(__dirname, "../contracts.json");
 import { ethers } from "ethers";
 import { LedgerSigner } from "@ethersproject/hardware-wallets";
 
-export const getContractAddressFromNonce = async (signer, nonce) => {
+export const getContractAddressFromNonce = async (
+  signer,
+  nonce
+): Promise<string> => {
   const rlpEncoded = rlp.encode([signer.address.toString(), nonce]);
   const longContractAddress = keccak("keccak256")
     .update(rlpEncoded)
@@ -14,7 +17,7 @@ export const getContractAddressFromNonce = async (signer, nonce) => {
   return longContractAddress.substring(24);
 };
 
-export const updateContractConfig = (network, newConfig) => {
+export const updateContractConfig = (network, newConfig): boolean => {
   const config = JSON.parse(fs.readFileSync(configPath).toString());
   config[network] = newConfig;
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
@@ -75,7 +78,7 @@ export async function ledgerSignTransaction(
   });
 }
 
-export const getGasPriceFromEnv = () => {
+export const getGasPriceFromEnv = (): ethers.BigNumber => {
   const gasPrice = ethers.BigNumber.from(
     process.env.DEPLOY_GAS_PRICE_WEI?.toString()
       || "8000000000"

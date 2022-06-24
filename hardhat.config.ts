@@ -7,7 +7,11 @@ import "@nomiclabs/hardhat-etherscan";
 import "hardhat-contract-sizer";
 import "./scripts/tasks";
 import "solidity-coverage";
+import "@typechain/hardhat";
+import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-waffle";
 import { ethers } from "ethers";
+import "hardhat-gas-reporter";
 
 const defaultKey =
   "0000000000000000000000000000000000000000000000000000000000000001";
@@ -15,6 +19,12 @@ const defaultRpcUrl = "https://localhost:8545";
 const defaultEtherBalance = "100000000";
 
 export default {
+  gasReporter: {
+    enabled: true,
+    currency: "ETH",
+    gasPrice: "auto",
+    showInChart: true
+  },
   paths: {
     sources: "./contracts",
     cache: "./cache",
@@ -56,7 +66,7 @@ export default {
   solidity: {
     compilers: [
       {
-        version: "0.8.6",
+        version: "0.8.4",
         settings: {
           optimizer: {
             enabled: false,
@@ -65,5 +75,11 @@ export default {
         }
       }
     ]
+  },
+  typechain: {
+    outDir: "build/typechain",
+    target: "ethers-v5",
+    alwaysGenerateOverloads: false,
+    externalArtifacts: ["externalArtifacts/*.json"]
   }
 };
