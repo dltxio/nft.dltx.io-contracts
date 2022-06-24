@@ -2,7 +2,6 @@
 import { ethers as tsEthers } from "ethers";
 import { deployContract } from "../scripts/deploy/utils";
 import {expect} from "chai";
-import {getRevertMessage} from "./utils";
 
 let nft: tsEthers.Contract;
 let deployer: tsEthers.Signer;
@@ -58,13 +57,8 @@ describe("NFT", () => {
     expect(metadata.enddate).to.gte(0);
   });
   it("Should not allow to terminate twice", async () => {
-    try {
-      await nft.terminateNow(0);
-    } catch (error) {
-      expect(getRevertMessage(error)).to.equal("Already terminated");
-      return;
-    }
-    throw new Error("Allowed terminating twice");
+    await expect(nft.terminateNow(0))
+      .to.be.revertedWith("Already terminated");
   });
   it("Should return the correct tokenURI", async () => {
     expect(await nft.tokenURI(0)).to.equal("https://dltx.io/nfts/0.json");
