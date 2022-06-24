@@ -1,17 +1,15 @@
 import { ethers, upgrades } from "hardhat";
-import { ethers as tsEthers } from "ethers";
+import { ContractFactory, ethers as tsEthers } from "ethers";
 import {getGasPriceFromEnv, getLedgerSigner} from "../utils";
 
-export const deployContract = async (
-  contractName: string,
+export const deployContract = async <T extends ContractFactory>(
+  factory: T,
   constructorArguments: any[],
   signer?: tsEthers.Signer,
   waitCount = 1
 ) => {
   signer = signer ?? (await getSignerForDeployer());
-  const Contract = (await ethers.getContractFactory(contractName)).connect(
-    signer
-  );
+  const Contract = factory.connect(signer);
   const contract = await Contract.deploy(...constructorArguments, {
     gasPrice: getGasPriceFromEnv()
   });
