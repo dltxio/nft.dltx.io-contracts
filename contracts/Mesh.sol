@@ -11,7 +11,7 @@ struct Meshie {
     bool isSudo;
 }
 
-contract DLTx is ERC721, Ownable {
+contract Mesh is ERC721, Ownable {
     string private _baseuri = "https://dltx.io/nfts/";
     uint256 public totalSupply;
     mapping (uint256 => Meshie) public mesh;
@@ -43,7 +43,7 @@ contract DLTx is ERC721, Ownable {
         mesh[index].probationSeconds = value;
     }
 
-    function setstartTimestamp(uint256 index, uint256 value) external onlyOwner {
+    function setStartTimestamp(uint256 index, uint256 value) external onlyOwner {
         require(
             mesh[index].endTimestamp == 0 ||
                 mesh[index].startTimestamp < mesh[index].endTimestamp,
