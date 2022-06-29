@@ -4,25 +4,27 @@ pragma solidity ^0.8.6;
 import "./ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-struct MetaData {
-  uint256 startdate;
-  uint256 enddate;
-  uint256 probation;
+struct Meshie {
+    uint256 startTimestamp;
+    uint256 endTimestamp;
+    uint256 probationSeconds;
+    bool isSudo;
 }
 
-contract DLTx is ERC721, Ownable {
+contract Mesh is ERC721, Ownable {
     string private _baseuri = "https://dltx.io/nfts/";
     uint256 public totalSupply;
-    mapping (uint256 => MetaData) public mesh;
+    mapping (uint256 => Meshie) public mesh;
 
     function mint(
-      address to,
-      uint256 startDate,
-      uint256 probation
+        address to,
+        uint256 startTimestamp,
+        uint256 probationSeconds,
+        bool isSudo
     ) public onlyOwner() {
         require(to != address(0), "Invalid address");
-        if (startDate == 0) startDate = block.timestamp;
-        mesh[totalSupply] = MetaData(startDate, 0, probation);
+        if (startTimestamp == 0) startTimestamp = block.timestamp;
+        mesh[totalSupply] = Meshie(startTimestamp, 0, probationSeconds, isSudo);
         _safeMint(to, totalSupply);
         totalSupply++;
     }
@@ -31,23 +33,23 @@ contract DLTx is ERC721, Ownable {
         terminate(index, block.timestamp);
     }
 
-    function terminate(uint256 index, uint256 enddate) public onlyOwner() {
+    function terminate(uint256 index, uint256 endTimestamp) public onlyOwner() {
         require(index < totalSupply, "Invalid index");
-        require(mesh[index].enddate == 0, "Already terminated");
-        mesh[index].enddate = enddate;
+        require(mesh[index].endTimestamp == 0, "Already terminated");
+        mesh[index].endTimestamp = endTimestamp;
     }
 
     function setProbation(uint256 index, uint256 value) external onlyOwner() {
-        mesh[index].probation = value;
+        mesh[index].probationSeconds = value;
     }
 
-    function setStartDate(uint256 index, uint256 value) external onlyOwner {
+    function setStartTimestamp(uint256 index, uint256 value) external onlyOwner {
         require(
-            mesh[index].enddate == 0 ||
-                mesh[index].startdate < mesh[index].enddate,
+            mesh[index].endTimestamp == 0 ||
+                mesh[index].startTimestamp < mesh[index].endTimestamp,
             "Start date not lower than end"
         );
-        mesh[index].startdate = value;
+        mesh[index].startTimestamp = value;
     }
 
     function setBaseURI(string memory value) external onlyOwner {
@@ -55,11 +57,11 @@ contract DLTx is ERC721, Ownable {
     }
 
     function employed(uint256 index) external view returns (bool) {
-        return mesh[index].enddate == 0;
+        return mesh[index].endTimestamp == 0;
     }
 
     function onProbation(uint256 index) external view returns (bool) {
-        return block.timestamp <= mesh[index].startdate + mesh[index].probation;
+        return block.timestamp <= mesh[index].startTimestamp + mesh[index].probationSeconds;
     }
 
     function _baseURI() internal view override returns (string memory) {

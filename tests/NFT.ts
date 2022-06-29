@@ -2,9 +2,9 @@
 import { ethers as tsEthers } from "ethers";
 import { deployContract } from "../scripts/deploy/utils";
 import {expect} from "chai";
-import {getRevertMessage} from "./utils";
+import {Mesh, Mesh__factory} from "../build/typechain";
 
-let nft: tsEthers.Contract;
+let nft: Mesh;
 let deployer: tsEthers.Signer;
 
 describe("NFT", () => {
@@ -12,25 +12,26 @@ describe("NFT", () => {
     deployer = (await ethers.getSigners())[0];
   });
   it("Should deploy the NFT", async () => {
-    nft = await deployContract(
-      "DLTx",
+    nft = await deployContract<Mesh__factory>(
+      new Mesh__factory(),
       [],
       deployer,
       1
-    );
+    ) as Mesh;
   });
   it("Should mint NFT for address", async () => {
     expect(await nft.totalSupply()).to.equal(ethers.constants.Zero);
     await nft.mint(
       await deployer.getAddress(),
       0, // 0 will use block.timestamp
-      60
+      60,
+      false
     );
     expect(await nft.totalSupply()).to.equal(ethers.constants.One);
     const metadata = await nft.mesh(0);
-    expect(metadata.startdate.gt(0)).to.be.true;
-    expect(metadata.enddate).to.equal(0);
-    expect(metadata.probation).to.equal(60);
+    expect(metadata.startTimestamp.gt(0)).to.be.true;
+    expect(metadata.endTimestamp).to.equal(0);
+    expect(metadata.probationSeconds).to.equal(60);
     expect(await nft.onProbation(0)).to.equal(true);
     expect(await nft.employed(0)).to.equal(true);
   });
@@ -42,29 +43,24 @@ describe("NFT", () => {
     expect(await nft.onProbation(0)).to.equal(false);
   });
   it("Should change the startdate", async () => {
-    await nft.setStartDate(0, 100);
+    await nft.setStartTimestamp(0, 100);
     const metadata = await nft.mesh(0);
-    expect(metadata.startdate).to.equal(100);
+    expect(metadata.startTimestamp).to.equal(100);
   });
   it("Should change the probation duration", async () => {
     await nft.setProbation(0, 1);
     const metadata = await nft.mesh(0);
-    expect(metadata.probation).to.equal(1);
+    expect(metadata.probationSeconds).to.equal(1);
   });
   it("Should terminate the employment", async () => {
     await nft.terminateNow(0);
     expect(await nft.employed(0)).to.equal(false);
     const metadata = await nft.mesh(0);
-    expect(metadata.enddate).to.gte(0);
+    expect(metadata.endTimestamp).to.gte(0);
   });
   it("Should not allow to terminate twice", async () => {
-    try {
-      await nft.terminateNow(0);
-    } catch (error) {
-      expect(getRevertMessage(error)).to.equal("Already terminated");
-      return;
-    }
-    throw new Error("Allowed terminating twice");
+    await expect(nft.terminateNow(0))
+      .to.be.revertedWith("Already terminated");
   });
   it("Should return the correct tokenURI", async () => {
     expect(await nft.tokenURI(0)).to.equal("https://dltx.io/nfts/0.json");
