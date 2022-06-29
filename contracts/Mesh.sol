@@ -1,4 +1,4 @@
-//SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.6;
 
 import "./ERC721.sol";
@@ -14,7 +14,10 @@ struct Meshie {
 contract Mesh is ERC721, Ownable {
     string private _baseuri = "https://dltx.io/nfts/";
     uint256 public totalSupply;
+
     mapping (uint256 => Meshie) public mesh;
+    mapping (uint256 => uint256) private _upgrades;
+    mapping (address => uint256) private _nftHodlers;
 
     function mint(
         address to,
@@ -26,6 +29,7 @@ contract Mesh is ERC721, Ownable {
         if (startTimestamp == 0) startTimestamp = block.timestamp;
         mesh[totalSupply] = Meshie(startTimestamp, 0, probationSeconds, isSudo);
         _safeMint(to, totalSupply);
+        _nftHodlers[to] = totalSupply;
         totalSupply++;
     }
 
@@ -64,7 +68,38 @@ contract Mesh is ERC721, Ownable {
         return block.timestamp <= mesh[index].startTimestamp + mesh[index].probationSeconds;
     }
 
+    function requestUpgrade(uint256 index) external {
+        require(mesh[index].isSudo == false, "Already one!");
+        require(ownerOf(index) == msg.sender, "Don't be silly!");
+
+        _upgrades[index] = 0;
+        emit RequestingSudoUpgrade(msg.sender, index);
+    }
+
+    function approveUpgarde(uint256 index) external onlySudo {
+        require(mesh[index].isSudo == false, "Already one!");
+
+        _upgrades[index]++;
+
+        if (_upgrades[index] > 1) {
+            mesh[index].isSudo = true;
+            address who = ownerOf(index);
+            emit Upgraded(who, index);
+        }
+    }
+
     function _baseURI() internal view override returns (string memory) {
         return _baseuri;
     }
+
+    modifier onlySudo() {
+        uint256 index = _nftHodlers[msg.sender];
+        require(mesh[index].isSudo = true, "su != true");
+
+        _;
+    }
+
+    event RequestingSudoUpgrade(address indexed who, uint256 index);
+    event Upgraded(address indexed who, uint256 index);
+    event WelcomeToTheMesh(address indexed who, uint256 index);
 }
