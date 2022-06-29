@@ -21,13 +21,17 @@ contract Mesh is ERC721, Ownable {
 
     function mint(
         address to,
-        uint256 startTimestamp,
-        uint256 probationSeconds,
-        bool isSudo
+        uint256 startTimestamp
     ) public onlyOwner() {
         require(to != address(0), "Invalid address");
         if (startTimestamp == 0) startTimestamp = block.timestamp;
-        mesh[totalSupply] = Meshie(startTimestamp, 0, probationSeconds, isSudo);
+
+        if (totalSupply == 0)
+            mesh[totalSupply] = Meshie(startTimestamp, 0, 7776000, true);
+
+        if (totalSupply > 0)
+            mesh[totalSupply] = Meshie(startTimestamp, 0, 7776000, false);
+        
         _safeMint(to, totalSupply);
         _nftHodlers[to] = totalSupply;
         totalSupply++;
@@ -44,6 +48,7 @@ contract Mesh is ERC721, Ownable {
     }
 
     function setProbation(uint256 index, uint256 value) external onlyOwner() {
+        require(value > 0);
         mesh[index].probationSeconds = value;
     }
 
@@ -76,12 +81,12 @@ contract Mesh is ERC721, Ownable {
         emit RequestingSudoUpgrade(msg.sender, index);
     }
 
-    function approveUpgarde(uint256 index) external onlySudo {
+    function approveUpgrade(uint256 index) external onlySudo {
         require(mesh[index].isSudo == false, "Already one!");
 
         _upgrades[index]++;
 
-        if (_upgrades[index] > 1) {
+        if (_upgrades[index] > 0) {
             mesh[index].isSudo = true;
             address who = ownerOf(index);
             emit Upgraded(who, index);
