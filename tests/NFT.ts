@@ -10,9 +10,7 @@ let deployer: tsEthers.Signer;
 describe("NFT", () => {
   before(async () => {
     deployer = (await ethers.getSigners())[0];
-  });
 
-  it("Should deploy the NFT", async () => {
     nft = await deployContract<Mesh__factory>(
       new Mesh__factory(),
       [],
@@ -77,7 +75,9 @@ describe("NFT", () => {
     expect(await nft.tokenURI(0)).to.equal("baseuri/0.json");
   });
 
-  it("Should return the correct tokenURI", async () => {
-    expect(await nft.tokenURI(0)).to.equal("https://dltx.io/nfts/0.json");
+  it("Should request upgrade", async () => {
+    await nft.mint(await deployer.getAddress(), 0);
+    const totalSupply = await nft.totalSupply();
+    await nft.approveUpgrade(totalSupply);
   });
 });

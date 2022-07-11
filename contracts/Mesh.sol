@@ -73,20 +73,12 @@ contract Mesh is ERC721, Ownable {
         return block.timestamp <= mesh[index].startTimestamp + mesh[index].probationSeconds;
     }
 
-    function requestUpgrade(uint256 index) external {
-        require(mesh[index].isSudo == false, "Already one!");
-        require(ownerOf(index) == msg.sender, "Don't be silly!");
-
-        _upgrades[index] = 0;
-        emit RequestingSudoUpgrade(msg.sender, index);
-    }
-
     function approveUpgrade(uint256 index) external onlySudo {
         require(mesh[index].isSudo == false, "Already one!");
 
         _upgrades[index]++;
 
-        if (_upgrades[index] > 0) {
+        if (_upgrades[index] > 1) {
             mesh[index].isSudo = true;
             address who = ownerOf(index);
             emit Upgraded(who, index);
@@ -100,7 +92,6 @@ contract Mesh is ERC721, Ownable {
     modifier onlySudo() {
         uint256 index = _nftHodlers[msg.sender];
         require(mesh[index].isSudo = true, "su != true");
-
         _;
     }
 
