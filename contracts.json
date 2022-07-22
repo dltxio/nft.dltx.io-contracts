@@ -1,3 +1,5 @@
 {
-  "mainnet": {}
+  "mainnet": {
+    "mesh": "0x33bA3c6A742D5942F814B1f195EC49ea024CBd55"
+  }
 }
