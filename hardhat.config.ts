@@ -16,7 +16,7 @@ import "hardhat-gas-reporter";
 const defaultKey =
   "0000000000000000000000000000000000000000000000000000000000000001";
 const defaultRpcUrl = "https://localhost:8545";
-const defaultEtherBalance = "100000000";
+const defaultEtherBalance = "1000000000000000000000";
 
 export default {
   gasReporter: {
