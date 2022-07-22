@@ -19,7 +19,7 @@ contract Mesh is
     UUPSUpgradeable
 {
     uint256 constant private THREE_MONTHS = 7776000;
-    string private _baseuri;
+    string constant private _baseuri = "https://nft.dltx.io/metadata/";
     mapping (uint256 => uint256) private _upgrades;
     mapping (address => uint256) private _nftHodlers;
 
@@ -39,7 +39,6 @@ contract Mesh is
     function initialize() public initializer {
         __Ownable_init();
         __ERC721_init("DLTx Mesh", "Mesh");
-        _baseuri = "https://nft.dltx.io/metadata/";
     }
 
     function mint(
