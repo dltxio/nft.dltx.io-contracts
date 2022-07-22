@@ -1,8 +1,9 @@
 ﻿import { ethers } from "hardhat";
 import { ethers as tsEthers } from "ethers";
-import { deployContract } from "../scripts/deploy/utils";
+import {deployProxy} from "../scripts/deploy/utils";
 import {expect} from "chai";
-import {Mesh, Mesh__factory} from "../build/typechain";
+import {Mesh} from "../build/typechain";
+import {constructorArguments} from "../scripts/deploy/contracts/Mesh";
 
 let nft: Mesh;
 let deployer: tsEthers.Signer;
@@ -11,12 +12,12 @@ describe("NFT", () => {
   before(async () => {
     deployer = (await ethers.getSigners())[0];
 
-    nft = await deployContract<Mesh__factory>(
-      new Mesh__factory(),
-      [],
+    nft = (await deployProxy(
+      "Mesh",
+      constructorArguments(),
       deployer,
       1
-    ) as Mesh;
+    )) as Mesh;
   });
 
   it("Should mint NFT for address", async () => {
@@ -67,7 +68,7 @@ describe("NFT", () => {
   });
 
   it("Should return the correct tokenURI", async () => {
-    expect(await nft.tokenURI(0)).to.equal("https://dltx.io/nfts/0.json");
+    expect(await nft.tokenURI(0)).to.equal("https://nft.dltx.io/metadata/0.json");
   });
 
   it("Should allow changing the base URI", async () => {

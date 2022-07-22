@@ -2,7 +2,9 @@
 pragma solidity ^0.8.6;
 
 import "./ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 struct Meshie {
     uint256 startTimestamp;
@@ -11,13 +13,17 @@ struct Meshie {
     bool isSudo;
 }
 
-contract Mesh is ERC721, Ownable {
-    string private _baseuri = "https://dltx.io/nfts/";
+contract Mesh is 
+    ERC721Upgradeable,
+    OwnableUpgradeable,
+    UUPSUpgradeable
+{
+    uint256 constant private THREE_MONTHS = 7776000;
+    string private _baseuri;
     mapping (uint256 => uint256) private _upgrades;
     mapping (address => uint256) private _nftHodlers;
 
     uint256 public totalSupply;
-    address public governance;
     mapping (uint256 => Meshie) public mesh;
     
     event RequestingSudoUpgrade(address indexed who, uint256 index);
@@ -29,10 +35,11 @@ contract Mesh is ERC721, Ownable {
         require(mesh[index].isSudo = true, "su != true");
         _;
     }
-    
-    modifier onlyGovernance() {
-        require(msg.sender == governance, "Unauthorised");
-        _;
+
+    function initialize() public initializer {
+        __Ownable_init();
+        __ERC721_init("DLTx Mesh", "Mesh");
+        _baseuri = "https://nft.dltx.io/metadata/";
     }
 
     function mint(
@@ -43,10 +50,10 @@ contract Mesh is ERC721, Ownable {
         if (startTimestamp == 0) startTimestamp = block.timestamp;
 
         if (totalSupply == 0)
-            mesh[totalSupply] = Meshie(startTimestamp, 0, 7776000, true);
+            mesh[totalSupply] = Meshie(startTimestamp, 0, THREE_MONTHS, true);
 
         if (totalSupply > 0)
-            mesh[totalSupply] = Meshie(startTimestamp, 0, 7776000, false);
+            mesh[totalSupply] = Meshie(startTimestamp, 0, THREE_MONTHS, false);
         
         _safeMint(to, totalSupply);
         _nftHodlers[to] = totalSupply;
@@ -105,14 +112,24 @@ contract Mesh is ERC721, Ownable {
     function _baseURI() internal view override returns (string memory) {
         return _baseuri;
     }
+    
+    function tokenURI(uint256 tokenId)
+        public view override returns (string memory)
+    {
+        string memory superUri = super.tokenURI(tokenId);
+        return string(abi.encodePacked(superUri, ".json"));
+    }
 
     /// Overrides the permissive _transfer implementation from the base contract,
-    // requiring that onlyGovernance does not revert.
+    // requiring that onlyOwner does not revert.
     function _transfer(
         address from,
         address to,
         uint256 tokenId
-    ) internal override onlyGovernance {
+    ) internal override onlyOwner {
         super._transfer(from, to, tokenId);
     }
+
+    /** @dev Protected UUPS upgrade authorization function */
+    function _authorizeUpgrade(address) internal override onlyOwner {}
 }
