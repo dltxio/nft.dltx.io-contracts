@@ -2,7 +2,6 @@ import { task } from "hardhat/config";
 import contracts from "../../contracts.json";
 import { ethers as tsEthers } from "ethers";
 import { getLedgerSigner } from "../utils";
-import {Mesh} from "../../build/typechain";
 
 task("mint")
   .addParam("address")
@@ -25,7 +24,7 @@ task("mint")
     console.log(`start date is ${args.startdate} (epoch ${epoch})`);
     const token = (await hre.ethers.getContractFactory("Mesh"))
       .attach(contractAddress)
-      .connect(signer) as Mesh;
+      .connect(signer);
     await token.mint(args.address, hre.ethers.BigNumber.from(epoch));
     console.log(`minted for address ${args.address}`);
   });
