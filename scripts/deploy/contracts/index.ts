@@ -1,5 +1,5 @@
 import { ethers as tsEthers } from "ethers";
-import * as NFT from "./NFT";
+import * as Mesh from "./Mesh";
 
 export interface DeploymentModule {
   contractNames: (...params: any) => string[];
@@ -12,6 +12,6 @@ export interface DeploymentModule {
   upgrade?: (deployer: tsEthers.Signer, addresses?: any) => void;
 }
 
-const modules: DeploymentModule[] = [NFT];
+const modules: DeploymentModule[] = [Mesh];
 
 export default modules;
