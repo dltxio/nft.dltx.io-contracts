@@ -9,7 +9,7 @@ task("mint")
   .addParam("startdate")
   .addOptionalParam("ledgersigner")
   .setAction(async (args, hre) => {
-    if (!hre.ethers.utils.isAddress(args.address))
+    if (!hre.ethers.utils.isAddress(args.address) && !args.address.endsWith(".eth"))
       return console.error("Invalid address");
     let signer: tsEthers.Signer;
     if (!args.ledgersigner) {
