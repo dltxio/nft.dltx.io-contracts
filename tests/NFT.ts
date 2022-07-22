@@ -87,11 +87,6 @@ describe("NFT", () => {
     expect(await nft.tokenURI(0)).to.equal("https://nft.dltx.io/metadata/0.json");
   });
 
-  it("Should allow changing the base URI", async () => {
-    await nft.setBaseURI("baseuri/");
-    expect(await nft.tokenURI(0)).to.equal("baseuri/0.json");
-  });
-
   it("Should request upgrade", async () => {
     await nft.mint(await deployer.getAddress(), 0);
     const totalSupply = await nft.totalSupply();

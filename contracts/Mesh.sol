@@ -83,11 +83,7 @@ contract Mesh is
         );
         mesh[index].startTimestamp = value;
     }
-
-    function setBaseURI(string memory value) external onlyOwner {
-        _baseuri = value;
-    }
-
+    
     function employed(uint256 index) external view returns (bool) {
         return mesh[index].endTimestamp == 0;
     }
