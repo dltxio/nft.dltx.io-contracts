@@ -1,5 +1,6 @@
 import { task } from "hardhat/config";
 import contracts from "../../contracts.json";
+import { getImplementationAddress } from "@openzeppelin/upgrades-core";
 
 task("verify-contracts-etherscan").setAction(async (args, hre) => {
   console.log(`network is ${hre.network.name}`);
@@ -9,9 +10,13 @@ task("verify-contracts-etherscan").setAction(async (args, hre) => {
   for (const module of contractDeploymentModules) {
     for (const contract of module.contractNames()) {
       if (!networkContracts[contract]) continue;
-      console.log(`attempting to verify contract "${contract}"`);
+      console.log(`attempting to verify proxy contract "${contract}"`);
+      const address = await getImplementationAddress(
+        hre.ethers.provider,
+        networkContracts[contract]
+      );
       await verifyOnEtherscan(
-        networkContracts[contract],
+        address,
         // Not all constructorArguments() functions need parameters,
         // but the ones that do should accept parameters in this standard
         // order of inputs.
