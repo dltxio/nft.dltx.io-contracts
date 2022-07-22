@@ -27,7 +27,7 @@ task("mint")
       .attach(contractAddress)
       .connect(signer) as Mesh;
     await token.mint(args.address, hre.ethers.BigNumber.from(epoch));
-    console.log(`minted ${args.amount} for address ${args.address}`);
+    console.log(`minted for address ${args.address}`);
   });
 
 const dateStringToStartTimestamp = (date: string) => {
