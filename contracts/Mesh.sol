@@ -72,7 +72,7 @@ contract Mesh is
 
     function setProbation(uint256 index, uint256 value) external onlyOwner() {
         require(value > 0);
-        require(index <= totalSupply, "No such Meshie");
+        require(index < totalSupply, "No such Meshie");
         mesh[index].probationSeconds = value;
     }
 
