@@ -19,6 +19,21 @@ contract Mesh is ERC721, Ownable {
     mapping (uint256 => Meshie) public mesh;
     mapping (uint256 => uint256) private _upgrades;
     mapping (address => uint256) private _nftHodlers;
+    
+    event RequestingSudoUpgrade(address indexed who, uint256 index);
+    event Upgraded(address indexed who, uint256 index);
+    event WelcomeToTheMesh(address indexed who, uint256 index);
+    
+    modifier onlySudo() {
+        uint256 index = _nftHodlers[msg.sender];
+        require(mesh[index].isSudo = true, "su != true");
+        _;
+    }
+    
+    modifier onlyGovernance() {
+        require(msg.sender == governance, "Unauthorised");
+        _;
+    }
 
     function mint(
         address to,
@@ -91,17 +106,6 @@ contract Mesh is ERC721, Ownable {
         return _baseuri;
     }
 
-    modifier onlySudo() {
-        uint256 index = _nftHodlers[msg.sender];
-        require(mesh[index].isSudo = true, "su != true");
-        _;
-    }
-    
-    modifier onlyGovernance() {
-        require(msg.sender == governance, "Unauthorised");
-        _;
-    }
-
     /// Overrides the permissive _transfer implementation from the base contract,
     // requiring that onlyGovernance does not revert.
     function _transfer(
@@ -111,8 +115,4 @@ contract Mesh is ERC721, Ownable {
     ) internal override onlyGovernance {
         super._transfer(from, to, tokenId);
     }
-
-    event RequestingSudoUpgrade(address indexed who, uint256 index);
-    event Upgraded(address indexed who, uint256 index);
-    event WelcomeToTheMesh(address indexed who, uint256 index);
 }
