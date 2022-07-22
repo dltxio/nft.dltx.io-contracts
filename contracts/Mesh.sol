@@ -13,12 +13,12 @@ struct Meshie {
 
 contract Mesh is ERC721, Ownable {
     string private _baseuri = "https://dltx.io/nfts/";
-    uint256 public totalSupply;
-
-    address public governance;
-    mapping (uint256 => Meshie) public mesh;
     mapping (uint256 => uint256) private _upgrades;
     mapping (address => uint256) private _nftHodlers;
+
+    uint256 public totalSupply;
+    address public governance;
+    mapping (uint256 => Meshie) public mesh;
     
     event RequestingSudoUpgrade(address indexed who, uint256 index);
     event Upgraded(address indexed who, uint256 index);
