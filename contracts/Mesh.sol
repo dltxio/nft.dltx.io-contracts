@@ -15,6 +15,7 @@ contract Mesh is ERC721, Ownable {
     string private _baseuri = "https://dltx.io/nfts/";
     uint256 public totalSupply;
 
+    address public governance;
     mapping (uint256 => Meshie) public mesh;
     mapping (uint256 => uint256) private _upgrades;
     mapping (address => uint256) private _nftHodlers;
@@ -94,6 +95,21 @@ contract Mesh is ERC721, Ownable {
         uint256 index = _nftHodlers[msg.sender];
         require(mesh[index].isSudo = true, "su != true");
         _;
+    }
+    
+    modifier onlyGovernance() {
+        require(msg.sender == governance, "Unauthorised");
+        _;
+    }
+
+    /// Overrides the permissive _transfer implementation from the base contract,
+    // requiring that onlyGovernance does not revert.
+    function _transfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal override onlyGovernance {
+        super._transfer(from, to, tokenId);
     }
 
     event RequestingSudoUpgrade(address indexed who, uint256 index);
