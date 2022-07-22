@@ -108,10 +108,6 @@ contract Mesh is
             emit Upgraded(who, index);
         }
     }
-
-    function _baseURI() internal view override returns (string memory) {
-        return _baseuri;
-    }
     
     function tokenURI(uint256 tokenId)
         public view override returns (string memory)
@@ -120,14 +116,17 @@ contract Mesh is
         return string(abi.encodePacked(superUri, ".json"));
     }
 
-    /// Overrides the permissive _transfer implementation from the base contract,
-    // requiring that onlyOwner does not revert.
+    function _baseURI() internal view override returns (string memory) {
+        return _baseuri;
+    }
+
+    // The Mesh NFT is not transferable.
     function _transfer(
         address from,
         address to,
         uint256 tokenId
-    ) internal override onlyOwner {
-        super._transfer(from, to, tokenId);
+    ) internal override {
+        revert("Not so fast");
     }
 
     /** @dev Protected UUPS upgrade authorization function */

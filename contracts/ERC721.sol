@@ -324,12 +324,11 @@ contract ERC721Upgradeable is Initializable, ContextUpgradeable, ERC165Upgradeab
     /**
      * @dev Transfers `tokenId` from `from` to `to`.
      *  As opposed to {transferFrom}, this imposes no restrictions on msg.sender.
-     *  Anyone may transfer tokens. Contracts inheriting this should override 
-     *  and implement proper authorisation checks.
      *
      * Requirements:
      *
      * - `to` cannot be the zero address.
+     * - `tokenId` token must be owned by `from`.
      *
      * Emits a {Transfer} event.
      */
@@ -338,6 +337,7 @@ contract ERC721Upgradeable is Initializable, ContextUpgradeable, ERC165Upgradeab
         address to,
         uint256 tokenId
     ) internal virtual {
+        require(ERC721Upgradeable.ownerOf(tokenId) == from, "ERC721: transfer from incorrect owner");
         require(to != address(0), "ERC721: transfer to the zero address");
 
         _beforeTokenTransfer(from, to, tokenId);
