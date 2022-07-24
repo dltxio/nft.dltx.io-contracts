@@ -1,11 +1,11 @@
 {
-    "description": "Developer",
-    "image": "https://dltx.io/images/The-Mesh/Jo-Rocca.jpg",
-    "name": "Jo Rocca",
-    "attributes": [
-      {
-        "email": "jo.rocca@dltx.io",
-        "pgp": ""
-      }
-    ]
+  "description": "Business Analyst",
+  "image": "https://dltx.io/images/The-Mesh/Tom-Dodson.jpg",
+  "name": "Tom Dodson",
+  "attributes": [
+    {
+      "email": "tom.dodsond@dltx.io",
+      "pgp": ""
+    }
+  ]
 }

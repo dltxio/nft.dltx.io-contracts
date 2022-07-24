@@ -1,10 +1,10 @@
 {
-    "description": "Business Analyst",
-    "image": "https://dltx.io/images/The-Mesh/Tom-Dodson.jpg",
-    "name": "Tom Dodson",
+    "description": "Developer",
+    "image": "https://dltx.io/images/The-Mesh/Ralph-Lavelle.jpg",
+    "name": "Ralph Lavelle",
     "attributes": [
       {
-        "email": "tom.dodsond@dltx.io",
+        "email": "ralph.lavelle@dltx.io",
         "pgp": ""
       }
     ]
