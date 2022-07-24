@@ -1,0 +1,11 @@
+{
+  "description": "Developer",
+  "image": "https://dltx.io/images/The-Mesh/Alex-Xiang.jpg",
+  "name": "Alex Xiang",
+  "attributes": [
+    {
+      "email": "alex.xiang@dltx.io",
+      "pgp": "https://dltx.io/pgp/alex.xiang@dltx.io.asc"
+    }
+  ]
+}
