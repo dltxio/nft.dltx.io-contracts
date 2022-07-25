@@ -3,13 +3,13 @@ region: sgp
 static_sites:
   - environment_slug: html
     github:
-      branch: main
+      branch: NFT-1
       deploy_on_push: true
       repo: dltxio/nft.dltx.io
     name: nft-dltx-io
     routes:
       - path: /
-    source_dir: ./metadata
+    source_dir: ./static
     catchall_document: index.html
     envs:
       - key: MAINNET_URL
