@@ -1,0 +1,32 @@
+name: nft
+region: sgp
+static_sites:
+  - environment_slug: html
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: dltxio/nft.dltx.io
+    name: nft-dltx-io
+    routes:
+      - path: /
+    source_dir: ./metadata
+    catchall_document: index.html
+    envs:
+      - key: MAINNET_URL
+        scope: BUILD_TIME
+        value: ""
+      - key: ETHERSCAN_KEY
+        scope: BUILD_TIME
+        value: ""
+      - key: PRIVATE_KEY
+        scope: BUILD_TIME
+        value: "0x0000000000000000000000000000000000000000000000000000000000000001"
+      - key: HARDHAT_NETWORK
+        scope: BUILD_TIME
+        value: "localhost"
+      - key: LOCAL_ETHER_BALANCE
+        scope: BUILD_TIME
+        value: "20000000"
+      - key: DEPLOY_GAS_PRICE_WEI
+        scope: BUILD_TIME
+        value: "75000000000"
