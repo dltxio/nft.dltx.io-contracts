@@ -16,7 +16,7 @@ import "hardhat-gas-reporter";
 const defaultKey =
   "0000000000000000000000000000000000000000000000000000000000000001";
 const defaultRpcUrl = "https://localhost:8545";
-const defaultEtherBalance = "1000000000000000000000";
+const defaultEtherBalance = "20000000000000000000000000";
 
 export default {
   gasReporter: {
@@ -34,16 +34,16 @@ export default {
   networks: {
     hardhat: {
       chainId: 1337,
-      // accounts: [
-      //   {
-      //     privateKey: process.env.PRIVATE_KEY,
-      //     balance: ethers.utils
-      //       .parseEther(
-      //         process.env.LOCAL_ETHER_BALANCE?.toString() ?? defaultEtherBalance
-      //       )
-      //       .toString()
-      //   }
-      // ],
+      accounts: [
+        {
+          privateKey: process.env.PRIVATE_KEY,
+          balance: ethers.utils
+            .parseEther(
+              process.env.LOCAL_ETHER_BALANCE?.toString() ?? defaultEtherBalance
+            )
+            .toString()
+        }
+      ],
       allowUnlimitedContractSize: false
     },
     kovan: {
