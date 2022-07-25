@@ -1,0 +1,11 @@
+{
+  "description": "Visionary",
+  "image": "https://dltx.io/images/The-Mesh/Lucas-Cullen.jpg",
+  "name": "Lucas",
+  "attributes": [
+    {
+      "twitter": "bitcoinbrisbane",
+      "pgp": "https://dltx.io/pgp/lucas@dltx.io.asc"
+    }
+  ]
+}
