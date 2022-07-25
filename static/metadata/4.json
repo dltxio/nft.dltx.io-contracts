@@ -1,0 +1,11 @@
+{
+  "description": "Developer",
+  "image": "https://dltx.io/images/The-Mesh/Lorenzo-Fontoura.jpg",
+  "name": "Lorenzo Fontoura",
+  "attributes": [
+    {
+      "email": "lorenzo.fontoura@dltx.io",
+      "pgp": "https://dltx.io/pgp/lorenzo.fontoura@dltx.io.asc"
+    }
+  ]
+}
