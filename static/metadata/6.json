@@ -1,10 +1,10 @@
 {
-  "description": "Qa Tester",
-  "image": "https://dltx.io/images/The-Mesh/Jasmin-Farhi.jpg",
-  "name": "Jasmin Farhi",
+  "description": "Business Analyst",
+  "image": "https://dltx.io/images/The-Mesh/Tom-Dodson.jpg",
+  "name": "Tom Dodson",
   "attributes": [
     {
-      "email": "jasmin.farhi@dltx.io",
+      "email": "tom.dodsond@dltx.io",
       "pgp": ""
     }
   ]

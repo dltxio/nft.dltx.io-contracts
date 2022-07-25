@@ -1,11 +1,11 @@
 {
-  "description": "Developer",
-  "image": "https://dltx.io/images/The-Mesh/Alex-Xiang.jpg",
-  "name": "Alex Xiang",
+  "description": "Voice of Reason",
+  "image": "https://dltx.io/images/The-Mesh/Steve-Milburn.jpg",
+  "name": "Steve Milburn",
   "attributes": [
     {
-      "email": "alex.xiang@dltx.io",
-      "pgp": "https://dltx.io/pgp/alex.xiang@dltx.io.asc"
+      "email": "steve@dltx.io",
+      "pgp": ""
     }
   ]
 }

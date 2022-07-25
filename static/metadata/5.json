@@ -1,0 +1,11 @@
+{
+  "description": "Qa Tester",
+  "image": "https://dltx.io/images/The-Mesh/Jasmin-Farhi.jpg",
+  "name": "Jasmin Farhi",
+  "attributes": [
+    {
+      "email": "jasmin.farhi@dltx.io",
+      "pgp": ""
+    }
+  ]
+}
